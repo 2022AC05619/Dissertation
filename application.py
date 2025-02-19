@@ -13,8 +13,8 @@ if uploaded_file is not None:
     progress_bar.progress(20)
     with open("uploaded.pdf", "wb") as f:
         f.write(uploaded_file.read())
-        # output_path = markdown_conversion.conver_to_markdown("F:\Bits\Sem 4 - Dissertation","uploaded")
-        output_path = "F:\Bits\Sem 4 - Dissertation\data\lambda-dg-300.md"
+        output_path = markdown_conversion.conver_to_markdown("F:\Bits\Sem 4 - Dissertation","uploaded")
+        #output_path = "F:\Bits\Sem 4 - Dissertation\data\lambda-dg-300.md"
         progress_bar.progress(100)
 
         if st.button("Summary"):
