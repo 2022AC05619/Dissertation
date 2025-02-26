@@ -5,8 +5,8 @@ from langchain_core.prompts import PromptTemplate
 # Summarizer we'll use for Map Reduce
 from langchain.chains.summarize import load_summarize_chain
 from langchain.schema import Document
-
-
+from langchain.chains import LLMChain
+from itertools import islice
 
 def Map_Reduce_summary(model_name,Document_list):
 
@@ -15,18 +15,28 @@ def Map_Reduce_summary(model_name,Document_list):
 
 
 
+    # map_prompt = """
+    # Your are a helpful chatbot and an expert in extracting the main themes from the given document.
+    # You have been provided a set of documents below
+    # ```{text}```
+    # based on the documents, please identify the main themes and give a paragraph for each.
+    # Helpful Answer:
+    # """
+
     map_prompt = """
-    Your are a helpful chatbot and an expert in extracting the main themes from the given document.
+    Your are a helpful chatbot and an expert in Summarizing the given document.
+    The Document is in Markdown Format.
     You have been provided a set of documents below
     ```{text}```
-    based on the documents, please identify the main themes and give a paragraph for each.
+    based on the documents, Please provide the summary for the given document in paragraph format.
     Helpful Answer:
     """
+
     map_prompt_template = PromptTemplate(template=map_prompt, input_variables=["text"])
 
     map_chain = load_summarize_chain(llm=llm,
-                                chain_type="map_reduce",
-                                # prompt=map_prompt_template
+                                chain_type="stuff",
+                                prompt=map_prompt_template
                                     )
     
     selected_docs = [Document(page_content=Document_list[i]) for i in range(len(Document_list))] 
@@ -47,3 +57,4 @@ def Map_Reduce_summary(model_name,Document_list):
         # print (f"Summary #{i} (chunk #{selected_indices[i]}) - Preview: {chunk_summary} \n")
 
     return summary_list
+
